@@ -1,0 +1,122 @@
+ Name        : calcul.c
+ Author      : me
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Hello World in C, Ansi-style
+ ============================================================================
+ */
+//order is important in functions
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef union vault {
+   int i;
+   float f;
+   char c;
+}medic;
+
+
+
+
+
+void vector_muinus(float *v1,float *v2,int *ret)
+{
+   int m;
+   float res;
+   puts("your vector is");
+   for (m = 0;m<*ret;m++)
+   {
+       res= v1[m]- v2[m];
+       printf ("%f\t%f\t%f\n",res,v1[m],v2[m]);
+   }
+}
+
+void vectorPlus (float *v1,float *v2,int *ret)
+{
+    int m;
+    float res;
+    puts("your vector is");
+    for (m = 0;m<*ret;m++)
+    {
+        res= v1[m] + v2[m];
+        printf ("%f\t%f\t%f\n",res,v1[m],v2[m]);
+    }
+}
+
+
+void vector_scal(float *v1,float *v2,int *ret)
+{
+    int m;
+    float res;
+    puts("your vector is");
+    for (m = 0;m<*ret;m++)
+    {
+        res = v1[m]* v2[m];
+        printf ("%f\t%f\t%f\n",res,v1[m],v2[m]);
+    }
+}
+
+int main()
+{
+    FILE *inFile;
+    float *a ;
+    float *b ;
+    char ch ='p';
+    char vec ='v';
+    int nubmerOfVec;
+    inFile = fopen("source.txt","r");
+    fscanf (inFile, "%c %c ", &ch,&vec);
+    switch(vec)
+    {
+     case 'v':fscanf (inFile, "%d", &nubmerOfVec);break;
+     case 'c': nubmerOfVec = 1;
+    }
+
+    printf("we are here 1 %d", nubmerOfVec);
+    a = malloc(nubmerOfVec*sizeof(float));
+    b = malloc(nubmerOfVec*sizeof(float));
+    for(int q=0;q<nubmerOfVec;q++)
+    {
+            fscanf (inFile, " %f",&a[q]);
+            printf("\tFirst%f",a[q]);
+    }
+    for(int q=0;q<nubmerOfVec;q++)
+        {
+                fscanf (inFile, " %f",&b[q]);
+                printf("\tSecond%f",b[q]);
+        }
+    puts("we are here 2 ");
+           switch(vec)
+           {
+            case 'c' :
+                switch(ch)
+                {
+                case '+' :puts("we are here ");*a = *a + *b;printf ( "this is a result %f\n", *a); ; break;
+                case '-' :*a = *a - *b;printf ( "this is a result %f\n", *a); ; break;
+
+                case 'f' :*b =1 ;for (int c = 1;c<=*a;c++)
+    {
+        *b=*b*c;
+    }printf ( "this is a result %f\n", *b); break;
+                case '*' :;*a = *a * (*b);printf ( "this is a result %f\n", *a); ; break;
+                case '/' :;*a = *a / *b;printf ( "this is a result %f\n", *a); ; break;
+                case '^' :;for (int c = 1;c<*b;c++)
+                {
+                    *a= *a *(*a);
+                }printf ( "this is a result %f\n", *a); break;
+               }break;
+            case 'v' :  switch(ch)
+            {
+                case '+': vectorPlus(a,b,&nubmerOfVec);break;
+                case '-': vector_muinus(a,b,&nubmerOfVec);break;
+                case '*': vector_scal(a,b,&nubmerOfVec);break;
+            }
+          }
+
+
+
+
+
+    return 0;
+}
