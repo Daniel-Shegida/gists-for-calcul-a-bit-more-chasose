@@ -1,3 +1,6 @@
+
+/*
+ ============================================================================
  Name        : calcul.c
  Author      : me
  Version     :
@@ -57,15 +60,51 @@ void vector_scal(float *v1,float *v2,int *ret)
     }
 }
 
-int main()
+
+
+
+
+
+
+
+
+/*float vector_pl_print()///errors in vec are just to diff
 {
     FILE *inFile;
+    inFile = fopen("source.txt","r");
+    char a,b;
+    int ret,i,c;
+    float *vector1;
+    float *vector2;
+    fscanf (inFile, "%c %c %d",&a,&b,&ret);
+    printf("%d\t",ret);
+    puts("we are here");
+    vector1 = malloc(ret*sizeof(float));
+    puts("we are here7");
+    vector2 = malloc(ret*sizeof(float));
+    puts("we are here7");
+    for (i = 0;i<ret;i++) {fscanf (inFile, "f",&vector2[i]);printf("%f\t",vector2[i]);}
+    printf("enter second vector ");
+    for (c = 0;c<ret;c++) {scanf ("%f",&vector2[c]);}
+    switch(a)
+        {
+            case '+': vectorPlus(vector1,vector2,&ret);break;
+            case '-': vector_muinus(vector1,vector2,&ret);break;
+            case '*': vector_scal(vector1,vector2,&ret);break;
+        }
+    return 0 ;
+}
+*/
+int main()
+{
+    FILE *inFile, *outFile;
     float *a ;
     float *b ;
     char ch ='p';
     char vec ='v';
     int nubmerOfVec;
     inFile = fopen("source.txt","r");
+    outFile = fopen("output.txt","w");
     fscanf (inFile, "%c %c ", &ch,&vec);
     switch(vec)
     {
@@ -92,31 +131,51 @@ int main()
             case 'c' :
                 switch(ch)
                 {
-                case '+' :puts("we are here ");*a = *a + *b;printf ( "this is a result %f\n", *a); ; break;
-                case '-' :*a = *a - *b;printf ( "this is a result %f\n", *a); ; break;
+                case '+' :puts("we are here ");*a = *a + *b;fprintf ( outFile,"this is a result %f\n", *a); ; break;
+                case '-' :*a = *a - *b;fprintf ( outFile,"this is a result %f\n", *a); ; break;
 
                 case 'f' :*b =1 ;for (int c = 1;c<=*a;c++)
     {
         *b=*b*c;
-    }printf ( "this is a result %f\n", *b); break;
-                case '*' :;*a = *a * (*b);printf ( "this is a result %f\n", *a); ; break;
-                case '/' :;*a = *a / *b;printf ( "this is a result %f\n", *a); ; break;
+    }fprintf ( outFile,"this is a result %f\n", *b); break;
+                case '*' :;*a = *a * (*b);fprintf ( outFile,"this is a result %f\n", *a); ; break;
+                case '/' :;*a = *a / *b;fprintf ( outFile,"this is a result %f\n", *a); ; break;
                 case '^' :;for (int c = 1;c<*b;c++)
                 {
                     *a= *a *(*a);
-                }printf ( "this is a result %f\n", *a); break;
+                }fprintf (outFile, "this is a result %f\n", *a); break;
                }break;
             case 'v' :  switch(ch)
             {
-                case '+': vectorPlus(a,b,&nubmerOfVec);break;
-                case '-': vector_muinus(a,b,&nubmerOfVec);break;
-                case '*': vector_scal(a,b,&nubmerOfVec);break;
+                case '+':
+                    for (int m = 0;m<nubmerOfVec;m++)
+                                            {
+                                                a[m]= a[m] + b[m];
+                                                fprintf (outFile,"%f ",a[m]);
+                                            }
+                    vectorPlus(a,b,&nubmerOfVec);break;
+                case '-':
+                    for (int m = 0;m<nubmerOfVec;m++)
+                        {
+                            a[m]= a[m] - b[m];
+                            fprintf (outFile,"%f ",a[m]);
+                        }
+                    vector_muinus(a,b,&nubmerOfVec);break;
+                case '*':
+                    for (int m = 0;m<nubmerOfVec;m++)
+                                            {
+                                                a[m]= a[m] * b[m];
+                                                fprintf (outFile,"%f ",a[m]);
+                                            }
+                    vector_scal(a,b,&nubmerOfVec);break;
             }
           }
 
 
 
 
+           fclose(inFile);
+           fclose(outFile);
 
     return 0;
 }
